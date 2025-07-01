@@ -23,9 +23,14 @@ export function setupServer() {
   app.get('/', (req, res) => {
     res.json({
       message:'Welcome to Contacts API!',
-
-    })
-  })
+      availableRoutes: [
+      { method: 'GET', path: '/api/contacts' },
+      { method: 'POST', path: '/api/contacts' },
+      { method: 'DELETE', path: '/api/contacts/:id' },
+      { method: 'PATCH', path: '/api/contacts/:id' },
+    ],
+    });
+  });
 
   app.use('/api/contacts', contactsRouter);
 

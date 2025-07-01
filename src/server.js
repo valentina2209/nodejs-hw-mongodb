@@ -20,13 +20,7 @@ export function setupServer() {
 
   app.use(pinoHttp({ logger }));
 
-  app.get('/', (req, res) => {
-    res.json({
-      message:'Welcome to Contacts API!',
-
-    });
-  });
-
+ 
   app.use('/contacts', contactsRouter);
 
   app.use((req, res) => {

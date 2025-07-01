@@ -5,6 +5,7 @@ import { pinoHttp } from 'pino-http';
 import { getEnvVar } from './utils/getEnvVar.js';
 import contactsRouter from './routers/contactsRouter.js';
 
+
 export function setupServer() {
   const app = express();
 
@@ -18,6 +19,13 @@ export function setupServer() {
   });
 
   app.use(pinoHttp({ logger }));
+
+  app.get('/', (req, res) => {
+    res.json({
+      message:'Welcome to Contacts API!',
+
+    })
+  })
 
   app.use('/api/contacts', contactsRouter);
 

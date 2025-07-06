@@ -4,7 +4,7 @@ import pino from 'pino';
 import { pinoHttp } from 'pino-http';
 import { getEnvVar } from './utils/getEnvVar.js';
 import contactsRouter from './routers/contactsRouter.js';
-
+import { errorHandler } from './middlewares/errorHandler.js'
 
 export function setupServer() {
   const app = express();
@@ -20,8 +20,9 @@ export function setupServer() {
 
   app.use(pinoHttp({ logger }));
 
- 
+
   app.use('/contacts', contactsRouter);
+  app.use(errorHandler);
 
   app.use((req, res) => {
     res.status(404).json({ message: 'Not found' });

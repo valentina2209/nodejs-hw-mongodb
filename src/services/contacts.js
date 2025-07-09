@@ -22,3 +22,11 @@ export const updateContact = async (contactId, updates) => {
     });
     return updateContact;
 };
+
+export const deleteContact = async (contactId) => {
+    const contact = await Contact.findOneAndDelete({
+        _id: contactId,
+    });
+
+    return contact;
+};

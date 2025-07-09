@@ -1,4 +1,4 @@
-import { getAllContacts, getContactById, createContact } from '../services/contacts.js';
+import { getAllContacts, getContactById, updateContact } from '../services/contacts.js';
 import createHttpError from 'http-errors';
 
 export async function getContactsController(req, res, next) {
@@ -42,9 +42,7 @@ export async function createContactController(req, res, next) {
       throw createHttpError(400, 'Missing required fields: name, phoneNumber, contactType');
     }
 
-
-
-    const contact = await createContact(req.body);
+    const contact = await updateContact(req.body);
 
     res.status(201).json({
       status: 201,
@@ -52,8 +50,28 @@ export async function createContactController(req, res, next) {
       data: contact,
     });
   } catch (error) {
-  
     next(error);
   }
 
+};
+
+export async function patchContactController(req, res, next) {
+  try {
+    const { contactId } = req.params;
+    const updates = req.body;
+
+    const contact = await updateContact(contactId, updates);
+
+    if (!contact) {
+      throw createHttpError(404, 'Contact not found');
+    }
+
+    res.status(200).json({
+      status: 200,
+      message: 'Successfully patched a contact!',
+      data: contact,
+    });
+  } catch (error) {
+    next(error);
+  }
 };

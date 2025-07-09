@@ -14,3 +14,11 @@ export const createContact = async (contact) => {
     const newContact = await Contact.create(contact);
     return newContact;
 };
+
+export const updateContact = async (contactId, updates) => {
+    const updateContact = await Contact.findByIdAndUpdate(contactId, updates, {
+        new: true,
+        runValidators: true,
+    });
+    return updateContact;
+};

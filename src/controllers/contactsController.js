@@ -4,11 +4,41 @@ import {deleteContact,
         updateContact,
         createContact } from '../services/contacts.js';
 import createHttpError from 'http-errors';
+import { parsePaginationParams } from '../utils/parsePaginationParams.js';
+// import { Contact } from '../db/models/contactModel.js';
+
+// export async function getContactsController(req, res) {
+//   const { page = 1, limit = 10 } = req.query;
+
+//   const skip = (Number(page) - 1) * Number(limit);
+
+//   // const contacts = await Contact.find()
+//   const contacts = await getAllContacts();
+//     .skip(skip)
+//     .perPage(Number(limit));
+
+//   const total = await Contact.countDocuments();
+
+//     res.status(200).json({
+//       status: 200,
+//       message:'Successfully found contacts!',
+//       data: {
+//          total,
+//          page: Number(page),
+//          perPage: Number(limit),
+//          contacts,
+//       },
+//   });
+// }
 
 export async function getContactsController(req, res) {
-  const contacts = await getAllContacts();
+  const { page, perPage } = parsePaginationParams(req.query);
+  const contacts = await getAllContacts({
+    page,
+    perPage,
+  });
 
-  res.status(200).json({
+  res.json({
     status: 200,
     message: 'Successfully found contacts!',
     data: contacts,

@@ -1,5 +1,6 @@
-
 import mongoose from "mongoose";
+import { ROLES } from "../../constants/index.js";
+
 
 const userSchema = new mongoose.Schema(
     {
@@ -15,6 +16,11 @@ const userSchema = new mongoose.Schema(
         password: {
             type: String,
             required: true,
+        },
+        role: {
+            type: String,
+            enum: [ROLES.ADMIN, ROLES.GUEST],
+            default: ROLES.ADMIN,
         },
     },
     {

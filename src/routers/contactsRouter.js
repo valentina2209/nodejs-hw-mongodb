@@ -17,35 +17,11 @@ const router = Router();
 router.use(authenticate);
 
 router.get('/', ctrlWrapper(getContactsController));
+router.get('/:contactId', isValidId, ctrlWrapper(getContactByIdController));
+router.post('/', validateBody(addContactSchema), ctrlWrapper(createContactController));
 
-router.get(
-        '/:contactId',
-
-        isValidId,
-        ctrlWrapper(getContactByIdController)
-);
-
-router.post(
-        '/',
-
-        validateBody(addContactSchema),
-        ctrlWrapper(createContactController)
-);
-
-router.patch(
-        '/:contactId',
-
-        isValidId,
-        validateBody(updateContactSchema),
-        ctrlWrapper(patchContactController)
-);
-
-router.delete(
-        '/:contactId',
-
-        isValidId,
-        ctrlWrapper(deleteContactController)
-);
+router.patch('/:contactId', isValidId, validateBody(updateContactSchema), ctrlWrapper(patchContactController));
+router.delete('/:contactId', isValidId, ctrlWrapper(deleteContactController));
 
 export default router;
 

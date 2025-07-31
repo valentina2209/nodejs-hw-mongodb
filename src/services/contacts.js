@@ -2,6 +2,7 @@ import { Contact} from '../db/models/contactModel.js'
 import { calculatePaginationData } from '../utils/calculatePaginationData.js';
 import { SORT_ORDER } from '../constants/index.js';
 import { CONTACT_TYPES } from '../constants/contactTypes.js';
+import mongoose from 'mongoose';
 
 
 export const getAllContacts = async ({
@@ -41,15 +42,22 @@ export const createContact = async (contact) => {
     return newContact;
 };
 
-export const updateContact = async (contactId, updates, userId ) => {
-    const updateContact = await Contact.findOneAndUpdate(
-        { _id: contactId, userId },
-        updates,
-        { new: true,
-        runValidators: true,
-    });
-    return updateContact;
+export const updateContact = async (contactId, updates, userId) => {
+  const contactObjectId = new mongoose.Types.ObjectId(contactId);
+  const userObjectId = new mongoose.Types.ObjectId(userId);
+
+  const contact = await Contact.findOneAndUpdate(
+    { _id: contactObjectId, userId: userObjectId },
+    updates,
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
+
+  return contact;
 };
+
 
 export const deleteContact = async (contactId, userId) => {
     const contact = await Contact.findOneAndDelete({

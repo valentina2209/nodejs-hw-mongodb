@@ -2,6 +2,7 @@ import { ONE_DAY } from "../constants/index.js";
 import { registerUser, loginUser, logoutUser, refreshUsersSession, resetPassword, requestResetToken} from "../services/auth.service.js";
 
 export async function registerUserController(req, res) {
+
     const user = await registerUser(req.body);
 
     res.status(201).json({

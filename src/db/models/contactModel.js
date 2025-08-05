@@ -16,11 +16,11 @@ const contactSchema = new Schema(
       type: String,
       trim: true,
     },
-     isFavourite: {
+    isFavourite: {
       type: Boolean,
       default: false,
     },
-      photo: {
+    photo: {
       type: String,
     },
     contactType: {

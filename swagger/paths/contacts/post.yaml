@@ -1,0 +1,32 @@
+tags:
+  - Contacts
+summary: Add a new contact
+operationId: addContact
+description: Adds a new contact to the current user's list.
+security:
+  - bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: ../../components/schemas/сontactRequest.yaml
+responses:
+  '201':
+    description: Contact successfully created
+    content:
+      application/json:
+        schema:
+          $ref: ../../components/schemas/сontact.yaml
+  '400':
+    description: Bad request
+    content:
+      application/json:
+        schema:
+          $ref: ../../components/responses/400.yaml
+  '401':
+    description: Unauthorized
+    content:
+      application/json:
+        schema:
+          $ref: ../../components/responses/401.yaml

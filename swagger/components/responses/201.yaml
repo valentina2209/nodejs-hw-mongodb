@@ -1,0 +1,23 @@
+description: Contact successfully created
+content:
+  application/json:
+    schema:
+      type: object
+      required:
+        - status
+        - message
+        - data
+      properties:
+        status:
+          type: integer
+          example: 201
+        message:
+          type: string
+          example: Contact created
+        data:
+          type: object
+          required:
+            - contact
+          properties:
+            contact:
+              $ref: '../schemas/contact.yaml'

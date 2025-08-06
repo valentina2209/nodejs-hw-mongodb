@@ -2,22 +2,54 @@ post:
   tags:
     - Auth
   summary: Login user
+  operationId: loginUser
+  description: Login a user using email and password
   requestBody:
     required: true
     content:
       application/json:
         schema:
-          $ref: ../../components/schemas/userRequest.yaml
+          type: object
+          required:
+            - email
+            - password
+          properties:
+            email:
+              type: string
+              example: "valya253@ukr.net"
+            password:
+              type: string
+              example: "SecureP@ssw0rd"
   responses:
     '200':
-      description: Successful login
+      description: Successfully logged in a user
       content:
         application/json:
           schema:
             type: object
+            required:
+              - status
+              - message
+              - data
             properties:
-              token:
+              status:
+                type: integer
+                example: 200
+              message:
                 type: string
-                example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'
+                example: Successfully logged in an user!
+              data:
+                type: object
+                required:
+                  - accessToken
+                properties:
+                  accessToken:
+                    type: string
+                    example: x7iCqxF7SxGJZcAZxMjOGWietzedJ1WOhYLHxJCJ
+          example:
+            status: 200
+            message: Successfully logged in an user!
+            data:
+              accessToken: x7iCqxF7SxGJZcAZxMjOGWietzedJ1WOhYLHxJCJ
     '401':
-      $ref: ../../components/responses/401.yaml
+      $ref: '../../components/responses/401.yaml'

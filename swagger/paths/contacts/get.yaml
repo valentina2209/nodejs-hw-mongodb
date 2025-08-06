@@ -2,7 +2,7 @@ tags:
   - Contacts
 summary: Retrieve all user's contacts
 operationId: getAllContacts
-description: Returns a list of the current user's contacts with pagination and filtering.
+description: Returns a list of the current user's contacts with pagination, filtering and sorting.
 security:
   - bearerAuth: []
 parameters:
@@ -13,7 +13,9 @@ parameters:
     schema:
       type: integer
       minimum: 1
-  - name: limit
+      example: 2
+
+  - name: perPage
     in: query
     description: Number of contacts per page (default is 20)
     required: false
@@ -21,25 +23,104 @@ parameters:
       type: integer
       minimum: 1
       maximum: 100
+      example: 4
+
   - name: isFavourite
     in: query
     description: Filter by favorite contacts
     required: false
     schema:
       type: boolean
+      example: false
+
+  - name: contactType
+    in: query
+    description: Filter by contact type
+    required: false
+    schema:
+      type: string
+      enum: [work, home, personal]
+      example: work
+
+  - name: sortBy
+    in: query
+    description: Field by which to sort the results
+    required: false
+    schema:
+      type: string
+      enum: [_id, name, phoneNumber, email, isFavourite, contactType, createdAt, updatedAt]
+      example: name
+
+  - name: sortOrder
+    in: query
+    description: Sorting order
+    required: false
+    schema:
+      type: string
+      enum: [asc, desc]
+      example: asc
+
 responses:
   '200':
-    description: List of contacts
+    description: List of contacts with pagination
     content:
       application/json:
         schema:
-          type: array
-          items:
-            $ref: ../../components/schemas/сontact.yaml
+          type: object
+          properties:
+            status:
+              type: integer
+              example: 200
+            message:
+              type: string
+              example: Successfully found contacts!
+            data:
+              type: object
+              properties:
+                data:
+                  type: array
+                  items:
+                    $ref: ../../components/schemas/contact.yaml
+                page:
+                  type: integer
+                  example: 2
+                perPage:
+                  type: integer
+                  example: 4
+                totalItems:
+                  type: integer
+                  example: 6
+                totalPages:
+                  type: integer
+                  example: 2
+                hasPreviousPage:
+                  type: boolean
+                  example: true
+                hasNextPage:
+                  type: boolean
+                  example: false
+        examples:
+          application/json:
+            value:
+              status: 200
+              message: Successfully found contacts!
+              data:
+                data:
+                  - _id: "68931e61826cf1f456ab5a56"
+                    name: "Sony"
+                    phoneNumber: "+380991234567"
+                    email: "valya253@ukr.net"
+                    isFavourite: false
+                    photo: "https://res.cloudinary.com/yourimage.jpg"
+                    contactType: "work"
+                    userId: "688a9079573cb187469ab551"
+                    createdAt: "2025-08-06T09:20:33.923Z"
+                    updatedAt: "2025-08-06T09:20:33.923Z"
+                page: 2
+                perPage: 4
+                totalItems: 6
+                totalPages: 2
+                hasPreviousPage: true
+                hasNextPage: false
   '401':
-    description: Unauthorized
-    content:
-      application/json:
-        schema:
-          $ref: ../../components/responses/401.yaml
-
+    $ref: ../../components/responses/401.yaml

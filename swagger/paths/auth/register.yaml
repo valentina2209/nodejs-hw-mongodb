@@ -25,7 +25,5 @@ post:
                   email:
                     type: string
                     example: 'jane@example.com'
-    '400':
-      description: Validation error
     '409':
       description: Email already in use

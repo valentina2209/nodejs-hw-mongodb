@@ -8,4 +8,4 @@ post:
     '204':
       description: Successfully logged out
     '401':
-      $ref: ../../components/responses/401.yaml
+       $ref: ../../components/responses/401.yaml

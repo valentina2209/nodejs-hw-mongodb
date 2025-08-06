@@ -33,6 +33,20 @@ paths:
     delete:
       $ref: ../swagger/paths/contacts/delete.yaml
 components:
+  schemas:
+    userRequest:
+      $ref: ../swagger/components/schemas/userRequest.yaml
+    contact:
+      $ref: ../swagger/components/schemas/contact.yaml
+  responses:
+    200:
+      $ref: ../swagger/components/responses/200.yaml
+    201:
+      $ref: ../swagger/components/responses/201.yaml
+    401:
+      $ref: ../swagger/components/responses/401.yaml
+    404:
+      $ref: ../swagger/components/responses/404.yaml
   securitySchemes:
     bearerAuth:
       type: http

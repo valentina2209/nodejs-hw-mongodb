@@ -1,32 +1,76 @@
 tags:
   - Contacts
-summary: Add a new contact
-operationId: addContact
-description: Adds a new contact to the current user's list.
+summary: Create a new contact
+operationId: createContact
+description: Adds a new contact to the current user's contact list.
 security:
   - bearerAuth: []
 requestBody:
   required: true
   content:
-    application/json:
+    multipart/form-data:
       schema:
-        $ref: ../../components/schemas/сontactRequest.yaml
+        type: object
+        properties:
+          name:
+            type: string
+            example: "Sony"
+          phoneNumber:
+            type: string
+            example: "+380991234567"
+          contactType:
+            type: string
+            enum: [work, home, personal]
+            example: work
+          email:
+            type: string
+            example: "valya253@ukr.net"
+          isFavourite:
+            type: boolean
+            example: false
+          photo:
+            type: string
+            format: binary
+        required:
+          - name
+          - phoneNumber
+          - contactType
 responses:
   '201':
     description: Contact successfully created
     content:
       application/json:
         schema:
-          $ref: ../../components/schemas/сontact.yaml
-  '400':
-    description: Bad request
-    content:
-      application/json:
-        schema:
-          $ref: ../../components/responses/400.yaml
+          type: object
+          required:
+            - status
+            - message
+            - data
+          properties:
+            status:
+              type: integer
+              example: 201
+            message:
+              type: string
+              example: Successfully created a contact!
+            data:
+              $ref: ../../components/schemas/contact.yaml
+        examples:
+          success:
+            value:
+              status: 201
+              message: Successfully created a contact!
+              data:
+                _id: "68931e61826cf1f456ab5a56"
+                name: "Sony"
+                phoneNumber: "+380991234567"
+                email: "valya253@ukr.net"
+                isFavourite: false
+                photo: "https://res.cloudinary.com/dpqbqq1jp/image/upload/v1754471928/oc5zdq9dk9i1ylgi9tjw.jpg"
+                contactType: "work"
+                userId: "688a9079573cb187469ab551"
+                createdAt: "2025-08-06T09:20:33.923Z"
+                updatedAt: "2025-08-06T09:20:33.923Z"
   '401':
     description: Unauthorized
-    content:
-      application/json:
-        schema:
-          $ref: ../../components/responses/401.yaml
+    $ref: ../../components/responses/401.yaml

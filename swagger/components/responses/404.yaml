@@ -1,24 +1,15 @@
-description: Not found
+description: Not Found
 content:
   application/json:
     schema:
       type: object
-      required:
-        - status
-        - message
-        - data
       properties:
         status:
+          type: string
+          example: fail
+        code:
           type: integer
           example: 404
         message:
           type: string
-          example: Not found
-        data:
-          type: object
-          required:
-            - message
-          properties:
-            message:
-              type: string
-              example: 'Contact with id 123 not found'
+          example: "Resource not found"
